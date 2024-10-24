@@ -147,7 +147,6 @@ int main() {
         // Output the extracted instructions count and move
         std::cout << "Instructions: " << instructions << std::endl;
         std::cout << "Player " << (turn + 1) << " Move: " << move_str << std::endl;
-        std::cout << "FEN: " << fen << std::endl;
 
         // Check instruction limit
         if (instructions > 5000000000ULL) {
@@ -186,6 +185,7 @@ int main() {
 
             // Print the board
             std::cout << board << std::endl;
+            std::cout << "FEN: " << fen << std::endl;
         } else {
             std::cout << "Move " << move_str << " is invalid." << std::endl;
             // Indicate which bot made the invalid move

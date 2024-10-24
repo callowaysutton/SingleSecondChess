@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chess Bot Competition</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes oscillate {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(300px, -660px);
+            }
+        }
+
+        /* Apply the animation to the background bubbles */
+        .animated-bubble {
+            animation: oscillate 60s ease-in-out infinite;
+        }
+    </style>
+
+</head>
+
+<body class="min-h-screen  bg-gray-900 text-gray-100 flex flex-col">
+    <!-- Background bubbles -->
+    <div class="fixed  inset-0 overflow-hidden pointer-events-none">
+        <div
+            class="absolute -top-1/2 -left-1/2 w-full h-full rounded-full bg-gradient-to-br from-purple-800 to-blue-600 opacity-20 blur-3xl animated-bubble">
+        </div>
+        <div
+            class="absolute -bottom-1/2 -right-1/2 w-full h-full rounded-full bg-gradient-to-tl from-blue-600 to-purple-800 opacity-20 blur-3xl animated-bubble">
+        </div>
+    </div>
+
+
+    <!-- Navigation -->
+    <nav class="relative z-10 bg-gray-900/80 backdrop-blur-sm">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center">
+                        <img class="h-8 w-8 text-purple-500" viewBox="0 0 20 20"
+                            src="data:image/webp;base64,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">
+                        <span class="ml-2 text-xl font-bold">Single Second Chess</span>
+                    </a>
+                </div>
+                <div class=" lg:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        {% if user %}
+                        <a href="/bots"
+                            class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors">Bots</a>
+                        {% else %}
+                        <a href="/"
+                            class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors">Home</a>
+                        {% endif %}
+                        <a href="/leaderboard"
+                            class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors">Leaderboards</a>
+                        {% if user %}
+                        <a href="/logout"
+                            class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors">Logout</a>
+                        {% else %}
+                        <a href="/sign-in"
+                            class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors">Join /
+                            Login</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    {% block content %} {% endblock %}
+
+    <!-- Footer -->
+    <footer class="relative z-10 bg-gray-900 border-t border-gray-800">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">External Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="https://www.chess.com/article/view/computers-and-chess---a-history"
+                                class="hover:text-purple-400 transition-colors">Computers and Chess History</a></li>
+                        <li><a href="https://www.chessprogramming.org/Monte-Carlo_Tree_Search"
+                                class="hover:text-purple-400 transition-colors">MCTS Chess</a></li>
+                        <li><a href="https://www.chessprogramming.org/Deep_Learning"
+                                class="hover:text-purple-400 transition-colors">AI Based Engines</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Internal Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/api-docs" class="hover:text-purple-400 transition-colors">API Reference</a></li>
+                        <li><a href="https://en.wikichip.org/wiki/amd/epyc/9474f"
+                                class="hover:text-purple-400 transition-colors">CPU Reference</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Community</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-purple-400 transition-colors">Discord</a></li>
+                        <li><a href="#" class="hover:text-purple-400 transition-colors">GroupMe</a></li>
+                        <li><a href="https://en.wikichip.org/wiki/amd/epyc/9474f"></a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/privacy" class="hover:text-purple-400 transition-colors">Privacy Policy</a></li>
+                        <li><a href="/tos" class="hover:text-purple-400 transition-colors">Terms of Service</a></li>
+                        <li><a href="/conduct" class="hover:text-purple-400 transition-colors">Code of Conduct</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 sm:mb-0">
+                    <!-- Crown Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-500 mr-2" viewBox="0 0 20 20"
+                        fill="currentColor">
+                        <path
+                            d="M10 3l2.39 4.54L17 8.27l-3.62 3.53.85 4.97L10 14.77l-4.23 2.22.85-4.97L3 8.27l4.61-.73L10 3z" />
+                    </svg>
+                    <a href="/"><span class="text-xl font-bold">Single Second Chess</span></a>
+                </div>
+                <p class="text-sm text-gray-400">
+                    © <span id="year"></span> Calloway Sutton. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="fixed bottom-4 right-4 z-50 space-y-4">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages[:3] %}
+        <div class="w-full bg-gray-800 text-white rounded-lg shadow-lg pointer-events-auto transition-opacity duration-500"
+            style="opacity: 1;">
+            <div class="p-4">
+                <div class="flex items-start">
+                    <div class="ml-3 flex-1 pt-0.5">
+                        <p class="text-sm leading-5 font-medium">
+                            {{ message }}
+                        </p>
+                    </div>
+                    <div class="ml-4 flex-shrink-0 flex">
+                        <button onclick="this.closest('.transition-opacity').remove()"
+                            class="inline-flex text-gray-400 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150">
+                            <!-- Close icon -->
+                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M10 8.586l4.95-4.95a1 1 0 1 1 1.414 1.414L11.414 10l4.95 4.95a1 1 0 1 1-1.414 1.414L10 11.414l-4.95 4.95a1 1 0 0 1-1.414-1.414L8.586 10 3.636 5.05a1 1 0 1 1 1.414-1.414L10 8.586z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- JavaScript to handle toast notifications -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toasts = document.querySelectorAll('#toast-container > div');
+            toasts.forEach((toast, index) => {
+                setTimeout(() => {
+                    toast.classList.add('opacity-0');
+                    setTimeout(() => {
+                        toast.remove();
+                    }, 500); // Wait for the fade-out transition to complete
+                }, 5000 + index * 100); // Slight delay between each toast fade-out
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>

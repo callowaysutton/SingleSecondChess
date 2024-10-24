@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}New Bot{% endblock %}
+
+{% block content %}
+<main class="flex-grow">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mt-8">
+            <div class="flex items center justify-between">
+                <h1 class="text-3xl font-bold">New Bot</h1>
+                <a href="/bots" class="px-3 py-2 rounded-md text-sm font-medium bg-gray-800 hover:bg-gray-700 transition-colors">Back</a>
+            </div>
+            <form action="/bots/new" method="POST" class="mt-8" enctype="multipart/form-data">
+                <div class="space-y-4">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-400">Name</label>
+                        <input type="text" name="name" id="name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black" required>
+                    </div>
+                    <div>
+                        <label for="description" class="block text-sm font-medium text-gray-400">Description</label>
+                        <textarea name="description" id="description" rows="3" placeholder="Talk about how your bot is special or a certain technique you used..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"></textarea>
+                    </div>
+                    <div>
+                        <!-- Bot executable -->
+                        <label for="binary" class="block text-sm font-medium text-gray-400">Bot Executable</label>
+                        <input type="file" name="binary" id="binary" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                    </div>
+                    <div>
+                        <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg text-lg transition-colors">Create Bot</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

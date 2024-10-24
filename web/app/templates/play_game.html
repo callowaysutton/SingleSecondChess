@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Play Game</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>Game Output</h1>
+    <pre id="output"></pre>
+    <h2 id="result"></h2>
+
+    <script>
+        var socket = io();
+
+        var p1_bot_id = "{{ p1_bot_id }}";
+        var p2_bot_id = "{{ p2_bot_id }}";
+
+        socket.on('connect', function() {
+            // Start the game when connected
+            socket.emit('play_game', {'p1_bot_id': p1_bot_id, 'p2_bot_id': p2_bot_id});
+        });
+
+        socket.on('game_output', function(msg) {
+            // Append the output to the display area
+            var outputArea = document.getElementById('output');
+            outputArea.innerText += msg.data;
+        });
+
+        socket.on('game_result', function(msg) {
+            // Display the game result
+            var resultArea = document.getElementById('result');
+            resultArea.innerText = 'Result: ' + msg.winner + '\nReason: ' + msg.reason;
+        });
+    </script>
+</body>
+</html>

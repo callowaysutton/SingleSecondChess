@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Bot Details - {{ bot.name }}{% endblock %}
+
+{% block content %}
+<main class="flex-grow mb-6">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mt-8">
+            <div class="flex items-center justify-between">
+                <h1 class="text-3xl font-bold">{{ bot.name }}</h1>
+                <a href="/bots" class="px-3 py-2 rounded-md text-sm font-medium bg-gray-800 hover:bg-gray-700 transition-colors">View my Bots</a>
+            </div>
+            <div class="mt-4">
+                <p class="text-gray-400">{{ bot.description }}</p>
+            </div>
+            <div class="mt-4">
+                <p class="text-gray-400">Wins: {{ bot.leaderboard_entry.wins }}</p>
+                <p class="text-gray-400">Losses: {{ bot.leaderboard_entry.losses }}</p>
+                <p class="text-gray-400">Draws: {{ bot.leaderboard_entry.draws }}</p>
+                <p class="text-gray-400">Games Played: {{ bot.leaderboard_entry.games_played }}</p>
+            </div>
+            <!-- Previous games played -->
+            <div class="mt-8">
+                <h2 class="text-2xl font-bold">Previous Games</h2>
+                <div class="mt-4">
+                    {% if bot.games_as_player1 or bot.games_as_player2 %}
+                    {% for game in bot.games_as_player1 %}
+                    <div class="game-container border border-gray-700 rounded-lg p-4 mt-4 cursor-pointer hover:shadow-lg transition-shadow" data-moves="{{ game.moves | escape }}">
+                        <p class="text-gray-400">Opponent: {{ game.player2.name }}</p>
+                        {% if game.winner %}
+                        <p class="text-gray-400">Winner: {{ game.winner.name }}</p>
+                        {% else %}
+                        <p class="text-gray-400">Draw</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    {% for game in bot.games_as_player2 %}
+                    <div class="game-container border border-gray-700 rounded-lg p-4 mt-4 cursor-pointer hover:shadow-lg transition-shadow" data-moves="{{ game.moves | escape }}">
+                        <p class="text-gray-400">Opponent: {{ game.player1.name }}</p>
+                        {% if game.winner %}
+                        <p class="text-gray-400">Winner: {{ game.winner.name }}</p>
+                        {% else %}
+                        <p class="text-gray-400">Draw</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p class="text-gray-400">No games played yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Modal -->
+<div id="movesModal" class="fixed inset-0 hidden bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
+    <div class="bg-gray-800 rounded-lg w-11/12 max-w-2xl p-6">
+        <h2 class="text-2xl font-bold mb-4">Game Moves</h2>
+        <div class="moves-list overflow-y-auto max-h-96 bg-gray-700 rounded-md p-4">
+            <pre id="movesContent" class="text-gray-400"></pre>
+        </div>
+        <div class="mt-6 text-right">
+            <button id="closeModal" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-md text-sm font-medium">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script>
+    // Get elements
+    const modal = document.getElementById('movesModal');
+    const closeModalButton = document.getElementById('closeModal');
+    const movesContent = document.getElementById('movesContent');
+    const gameContainers = document.querySelectorAll('.game-container');
+
+    // Show modal when a game container is clicked
+    gameContainers.forEach(container => {
+        container.addEventListener('click', () => {
+            const moves = container.getAttribute('data-moves');
+            movesContent.textContent = moves ? moves : 'No moves available';
+            modal.classList.remove('hidden');
+        });
+    });
+
+    // Hide modal when close button is clicked
+    closeModalButton.addEventListener('click', () => {
+        modal.classList.add('hidden');
+    });
+
+    // Hide modal when clicking outside of the modal content
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.classList.add('hidden');
+        }
+    });
+</script>
+{% endblock %}

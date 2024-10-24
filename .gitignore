@@ -1,9 +1,17 @@
 *
 !Makefile
 !example_bots
+!example_bots/*
 !*.*
 .github/
 .vscode/
 logs/
 jail/
 *.o
+!Dockerfile
+!web/
+!/web/app
+!/web/app/templates
+!/web/app/blueprints
+!/web/app/static
+*.env

@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+{% block content %}
+  <main class="flex-grow">
+    <!-- Hero Section -->
+    <section class="relative z-10 py-16 sm:py-24">
+      <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1
+          class="text-2xl sm:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-500 mb-6">
+          Chess Bot Competition
+        </h1>
+        <p class="text-xl sm:text-2xl mb-8 max-w-3xl mx-auto">
+          Pit your AI against the best in our cutting-edge chess bot arena. Push the boundaries of artificial
+          intelligence and strategic gameplay.
+        </p>
+        <a href="/bots"
+          class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg text-lg transition-colors">
+          Join the Competition
+      </a>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="relative z-10 py-20 ">
+      <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-center mb-8">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <!-- Accordion Item 1 -->
+          <div class="border border-gray-700 rounded-lg">
+            <button
+              class="w-full px-4 py-2 text-left text-white font-medium focus:outline-none flex justify-between items-center"
+              data-accordion-target="accordion-item-1">
+              What is a Chess Bot Competition?
+              <!-- Chevron Icon -->
+              <svg class="h-5 w-5 transform transition-transform" data-accordion-icon xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                  d="M5.23 7.21a.75.75 0 011.06-.02L10 10.854l3.71-3.666a.75.75 0 011.08 1.04l-4.25 4.2a.75.75 0 01-1.06 0l-4.25-4.2a.75.75 0 01-.02-1.06z"
+                  clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div id="accordion-item-1" class="hidden px-4 py-2 text-gray-400">
+              A Chess Bot Competition is an event where programmers create AI algorithms to play chess. These bots
+              compete against each other in a tournament-style format to determine which AI is the strongest chess
+              player. In this specific competition, bots are only given 5 billion instructions to make their moves.
+            </div>
+          </div>
+          <!-- Accordion Item 2 -->
+          <div class="border border-gray-700 rounded-lg">
+            <button
+              class="w-full px-4 py-2 text-left text-white font-medium focus:outline-none flex justify-between items-center"
+              data-accordion-target="accordion-item-2">
+              How do I participate?
+              <!-- Chevron Icon -->
+              <svg class="h-5 w-5 transform transition-transform" data-accordion-icon xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                  d="M5.23 7.21a.75.75 0 011.06-.02L10 10.854l3.71-3.666a.75.75 0 011.08 1.04l-4.25 4.2a.75.75 0 01-1.06 0l-4.25-4.2a.75.75 0 01-.02-1.06z"
+                  clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div id="accordion-item-2" class="hidden px-4 py-2 text-gray-400">
+              To participate, you need to develop a chess-playing algorithm and submit it to our platform. We provide
+              APIs and documentation to help you get started. Once submitted, your bot will be entered into the
+              competition and ranked automatically!
+            </div>
+          </div>
+          <!-- Accordion Item 3 -->
+          <div class="border border-gray-700 rounded-lg">
+            <button
+              class="w-full px-4 py-2 text-left text-white font-medium focus:outline-none flex justify-between items-center"
+              data-accordion-target="accordion-item-3">
+              What programming languages can I use?
+              <!-- Chevron Icon -->
+              <svg class="h-5 w-5 transform transition-transform" data-accordion-icon xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                  d="M5.23 7.21a.75.75 0 011.06-.02L10 10.854l3.71-3.666a.75.75 0 011.08 1.04l-4.25 4.2a.75.75 0 01-1.06 0l-4.25-4.2a.75.75 0 01-.02-1.06z"
+                  clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div id="accordion-item-3" class="hidden px-4 py-2 text-gray-400">
+              The only requirement for this competition is that your bot is an x86-64 compiled, glibc compatible binary. This
+              means you can use any programming language that can compile to a binary, including C, C++, Rust, Go, and
+              more. Please take a look at the CPU reference for more details.
+            </div>
+          </div>
+          <!-- Accordion Item 4 -->
+          <div class="border border-gray-700 rounded-lg">
+            <button
+              class="w-full px-4 py-2 text-left text-white font-medium focus:outline-none flex justify-between items-center"
+              data-accordion-target="accordion-item-4">
+              Are there any prizes?
+              <!-- Chevron Icon -->
+              <svg class="h-5 w-5 transform transition-transform" data-accordion-icon xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                  d="M5.23 7.21a.75.75 0 011.06-.02L10 10.854l3.71-3.666a.75.75 0 011.08 1.04l-4.25 4.2a.75.75 0 01-1.06 0l-4.25-4.2a.75.75 0 01-.02-1.06z"
+                  clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div id="accordion-item-4" class="hidden px-4 py-2 text-gray-400">
+              Yes! The goal is to provide prizes for the top bots during formal competitions! We are working with sponsors
+              to provide cash prizes, hardware, and other rewards for the winners. Stay tuned for more details on the
+              prize pool.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="relative z-10 py-20">
+      <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-2xl sm:text-4xl font-bold mb-4">Ready to Challenge the Best?</h2>
+        <p class="text-xl mb-8">
+          Join our next Chess Bot Competition and showcase your AI skills to the world.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+          <input type="email" placeholder="Enter your email"
+            class="w-full max-w-xs bg-gray-800 border border-gray-700 text-white placeholder-gray-400 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <button
+            class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-colors">
+            Get Notified
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- JavaScript -->
+  <script>
+    // Accordion functionality
+    const accordionButtons = document.querySelectorAll('[data-accordion-target]');
+
+    accordionButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const targetId = button.getAttribute('data-accordion-target');
+        const content = document.getElementById(targetId);
+        const icon = button.querySelector('[data-accordion-icon]');
+        content.classList.toggle('hidden');
+        icon.classList.toggle('transform');
+        icon.classList.toggle('rotate-180');
+      });
+    });
+
+    // Update year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+{% endblock %}

@@ -6,13 +6,16 @@
 		"dockerfile": "Dockerfile"
 	},
 	// Add CAP_SYS_ADMIN, CAP_NET_ADMIN and CAP_SYS_PTRACE capabilities to the container.
+	// Mount the docker socket so that the container can run docker commands.
 	"runArgs": [
 		"--cap-add=SYS_PTRACE",
 		"--cap-add=NET_ADMIN",
 		"--cap-add=SYS_ADMIN",
 		"--privileged",
 		"--security-opt",
-		"seccomp=unconfined"
+		"seccomp=unconfined",
+		"--mount",
+		"type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock"
 	],
 
 	// Features to add to the dev container. More info: https://containers.dev/features.

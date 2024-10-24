@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block title %}Duel{% endblock %}
+
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/choices.min.css" />
+
+
+<!-- Include Chessboard.js CSS -->
+<link rel="stylesheet"
+      href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css"
+      integrity="sha384-q94+BZtLrkL1/ohfjR8c6L+A6qzNH9R2hBLwyoAfu3i/WCvQjzL2RQJ3uNHDISdU"
+      crossorigin="anonymous">
+<!-- Include Chess.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+
+<!-- Include Chessboard.js -->
+<script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"
+        integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD"
+        crossorigin="anonymous"></script>
+
+<style>
+    .choices {
+        margin-top: 0.5rem;
+        color: black;
+    }
+</style>
+
+<main class="flex-grow">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mt-8">
+            <h1 class="text-3xl font-bold">Duel</h1>
+            <div class="mt-4">
+                <!-- Dropdown Menu with all Bots -->
+                <select id="p1_bot_id">
+                    {% for bot in bots %}
+                    <option value="{{ bot.id }}">{{ bot.name }}</option>
+                    {% endfor %}
+                </select>
+
+                <select id="p2_bot_id"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black">
+                    {% for bot in bots %}
+                    <option value="{{ bot.id }}">{{ bot.name }}</option>
+                    {% endfor %}
+                </select>
+
+                <button id="start_game"
+                    class="mt-4 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg text-lg transition-colors">Start
+                    Game</button>
+            </div>
+            <h2 class="text-2xl font-bold mt-8">Output</h2>
+            <div id="myBoard" style="width: 400px"></div>
+            <!-- Results -->
+            <div id="results" class="mt-4 hidden"></div>
+        </div>
+    </div>
+</main>
+
+
+<script>
+    // Initialize everything when the page loads
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const element1 = document.getElementById('p1_bot_id');
+        const choices1 = new Choices(element1);
+
+        const element2 = document.getElementById('p2_bot_id');
+        const choices2 = new Choices(element2);
+
+        var config = {
+            position: 'start',
+            pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png',
+            moveSpeed: 'fast',
+        }
+        const board = Chessboard('myBoard', config);
+        const game = new Chess();
+
+        const startGameButton = document.getElementById('start_game');
+
+        // Function to parse FEN string from the server message
+        function parseFenFromMessage(message) {
+            // Adjust the regex based on your message format
+            var fenRegex = /((?:[rnbqkpRNBQKP1-8]+\/){7}[rnbqkpRNBQKP1-8]+ [wb] [KQkq\-]+ [a-h\d\-]+ \d+ \d+)/;
+            var match = message.match(fenRegex);
+            if (match) {
+                return match[1];
+            } else {
+                return null;
+            }
+        }
+
+        // Add an event listener to the start game button
+        startGameButton.addEventListener('click', function () {
+            // Get the selected bot IDs
+            const p1_bot_id = document.getElementById('p1_bot_id').value;
+            const p2_bot_id = document.getElementById('p2_bot_id').value;
+
+            // Hide the results div
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.classList.add('hidden');
+
+            var socket = io();
+
+            socket.on('connect', function () {
+                // Start the game when connected
+                socket.emit('play_game', { 'p1_bot_id': p1_bot_id, 'p2_bot_id': p2_bot_id });
+            });
+
+            socket.on('game_output', function (msg) {
+                // Parse out the FEN string from msg.data
+                var fen = parseFenFromMessage(msg.data);
+
+                if (fen) {
+                    game.load(fen);
+                    board.position(fen, true); // 'true' enables animations
+                }
+            });
+
+            socket.on('game_result', function (msg) {
+                // Show the results
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = 'Result: ' + msg.winner + '\nReason: ' + msg.reason;
+                resultsDiv.classList.remove('hidden');
+            });
+        });
+    });
+</script>
+
+{% endblock %}
